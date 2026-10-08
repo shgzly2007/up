@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中小学英语全能学习总站｜永久免费开源</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:"微软雅黑",sans-serif;}
+body{background:#f5f7fa;padding:10px;}
+h1{text-align:center;color:#2266dd;font-size:22px;margin-bottom:8px;}
+.tip{max-width:1100px;margin:0 auto 12px auto;background:#eef6ff;padding:10px;border-radius:6px;color:#222;font-size:15px;}
+
+.tab-box{max-width:1100px;margin:0 auto;}
+.tab-buttons{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.tab-buttons button{
+    flex:1;min-width:130px;padding:10px 4px;border:none;border-radius:4px;
+    background:#dde6f3;color:#223;font-size:14px;cursor:pointer;transition:0.2s;
+}
+.tab-buttons button.active{background:#2266dd;color:#fff;}
+.content{width:100%;height:62vh;border-radius:6px;overflow:hidden;border:1px solid #ccd6e0;}
+iframe{width:100%;height:100%;border:none;display:block;}
+.hide{display:none;}
+.show{display:block;}
+
+/* 计时器样式 */
+.timer-wrap{max-width:1100px;margin:12px auto 0 auto;background:#fff;padding:12px;border-radius:6px;border:1px solid #ccd6e0;text-align:center;}
+#timerText{font-size:28px;color:#2266dd;font-weight:bold;margin:8px 0;}
+.timer-btn{padding:6px 14px;border:none;border-radius:4px;color:#fff;cursor:pointer;margin:0 5px;}
+#startBtn{background:#28a745;}
+#pauseBtn{background:#ffc107;color:#222;}
+#resetBtn{background:#dc3545;}
+
+/* 每日目标 */
+.goal-wrap{max-width:1100px;margin:12px auto 0 auto;background:#fff;padding:12px;border-radius:6px;border:1px solid #ccd6e0;}
+.goal-wrap h3{margin-bottom:8px;color:#2266dd;}
+#goalInput{width:100%;height:60px;padding:8px;font-size:14px;resize:none;border:1px solid #ccc;border-radius:4px;}
+.goal-btn{margin-top:6px;padding:6px 12px;border:none;background:#2266dd;color:#fff;border-radius:4px;cursor:pointer;margin-right:8px;}
+
+/* 打卡笔记区域样式 */
+.note-wrap{max-width:1100px;margin:12px auto 0 auto;background:#fff;padding:12px;border-radius:6px;border:1px solid #ccd6e0;}
+.note-wrap h3{margin-bottom:8px;color:#2266dd;}
+#noteInput{width:100%;height:80px;padding:8px;font-size:14px;resize:none;border:1px solid #ccc;border-radius:4px;}
+.note-btn{margin-top:6px;padding:6px 12px;border:none;background:#2266dd;color:#fff;border-radius:4px;cursor:pointer;margin-right:8px;}
+#noteList{margin-top:10px;max-height:120px;overflow-y:auto;line-height:1.6;font-size:14px;}
+.note-item{padding:4px 0;border-bottom:1px dashed #eee;}
+</style>
+</head>
+<body>
+
+<h1>🏫中小学英语全能学习总站（六合一+计时器+目标+打卡）</h1>
+
+<div class="tip">
+✅ <b>弟弟（三年级）：1号模块｜单词打字+课本同步</b>
+✅ <b>哥哥（初一）：2、3、4、6号模块｜造句+语法拆解+精读+彩虹彩色标注</b>
+✅ <b>音标：5号模块，大小孩子都可以练习发音</b>
+</div>
+
+<div class="tab-box">
+<div class="tab-buttons">
+    <button class="active" onclick="switchTab(0)">1️⃣ 小学单词打字（三年级专用）</button>
+    <button onclick="switchTab(1)">2️⃣ 连词成句语法（初一核心）</button>
+    <button onclick="switchTab(2)">3️⃣ 句子主谓宾解析</button>
+    <button onclick="switchTab(3)">4️⃣ 英文文章精读跟读</button>
+    <button onclick="switchTab(4)">5️⃣ 零基础音标发音训练</button>
+    <button onclick="switchTab(5)">6️⃣ 🌈彩虹彩色语法标注（对标彩虹英语）</button>
+</div>
+
+<div class="content">
+    <!-- 模块1 TypeWords单词打字 -->
+    <div class="show"><iframe src="https://typewords.cc"></iframe></div>
+    <!-- 模块2 Earthworm连词成句 -->
+    <div class="hide"><iframe src="https://cuixueshe.github.io/earthworm/"></iframe></div>
+    <!-- 模块3 在线句法分析 -->
+    <div class="hide"><iframe src="https://linguisttools.com/parse/"></iframe></div>
+    <!-- 模块4 英文精读跟读 -->
+    <div class="hide"><iframe src="https://readlang.com/reader"></iframe></div>
+    <!-- 模块5 音标学习网页 -->
+    <div class="hide"><iframe src="https://www.phonemicchart.com/transcribe/"></iframe></div>
+    <!-- 模块6 彩虹风格彩色语法解析网页 -->
+    <div class="hide"><iframe src="https://parseenglish.com/"></iframe></div>
+</div>
+</div>
+
+<!-- 学习计时器 -->
+<div class="timer-wrap">
+    <div>⏱️ 学习计时器</div>
+    <div id="timerText">00:00:00</div>
+    <button class="timer-btn" id="startBtn" onclick="timerStart()">开始学习</button>
+    <button class="timer-btn" id="pauseBtn" onclick="timerPause()">暂停</button>
+    <button class="timer-btn" id="resetBtn" onclick="timerReset()">重置</button>
+</div>
+
+<!-- 每日学习目标 -->
+<div class="goal-wrap">
+    <h3>🎯 今日学习目标</h3>
+    <textarea id="goalInput" placeholder="提前写今天任务，例：三年级：背诵15个单词；初一：完成8个连词造句，复习语法"></textarea>
+    <br>
+    <button class="goal-btn" onclick="saveGoal()">保存今日目标</button>
+    <button class="goal-btn" onclick="clearGoal()">清空目标</button>
+</div>
+
+<!-- 学习打卡笔记区域 -->
+<div class="note-wrap">
+    <h3>📝 学习打卡笔记（自动保存在本机浏览器）</h3>
+    <textarea id="noteInput" placeholder="在这里记录今天学习内容，例如：三年级：学习15个单词；初一：练习5个句子，错题2个。可以顺便写上学习时长"></textarea>
+    <br>
+    <button class="note-btn" onclick="saveNote()">保存记录</button>
+    <button class="note-btn" onclick="clearAllNotes()">清空全部记录</button>
+    <div id="noteList"></div>
+</div>
+
+<script>
+// 切换标签函数
+function switchTab(n){
+    let all = document.querySelectorAll(".content > div");
+    let btn = document.querySelectorAll(".tab-buttons button");
+    all.forEach(x=>x.className="hide");
+    btn.forEach(x=>x.className="");
+    all[n].className="show";
+    btn[n].className="active";
+}
+
+// ----------------------计时器代码----------------------
+let timerInterval;
+let totalSeconds = 0;
+let timerRunning = false;
+const timerDom = document.getElementById("timerText");
+
+function formatTime(s){
+    let h = String(Math.floor(s/3600)).padStart(2,"0");
+    let m = String(Math.floor((s%3600)/60)).padStart(2,"0");
+    let sec = String(s%60).padStart(2,"0");
+    return `${h}:${m}:${sec}`;
+}
+function timerStart(){
+    if(timerRunning) return;
+    timerRunning = true;
+    timerInterval = setInterval(()=>{
+        totalSeconds++;
+        timerDom.innerText = formatTime(totalSeconds);
+    },1000);
+}
+function timerPause(){
+    timerRunning = false;
+    clearInterval(timerInterval);
+}
+function timerReset(){
+    timerRunning = false;
+    clearInterval(timerInterval);
+    totalSeconds = 0;
+    timerDom.innerText = "00:00:00";
+}
+
+// ----------------------每日目标 本地存储----------------------
+function loadGoal(){
+    let goal = localStorage.getItem("dailyGoal") || "";
+    document.getElementById("goalInput").value = goal;
+}
+function saveGoal(){
+    const text = document.getElementById("goalInput").value;
+    localStorage.setItem("dailyGoal", text);
+    alert("今日目标已保存！");
+}
+function clearGoal(){
+    if(confirm("确定清空今日目标？")){
+        localStorage.removeItem("dailyGoal");
+        document.getElementById("goalInput").value = "";
+    }
+}
+
+// ----------------------打卡笔记本地存储----------------------
+function loadNotes(){
+    const notes = JSON.parse(localStorage.getItem("englishNotes") || "[]");
+    const listDom = document.getElementById("noteList");
+    listDom.innerHTML = "";
+    notes.forEach(item=>{
+        const div = document.createElement("div");
+        div.className = "note-item";
+        div.innerText = item;
+        listDom.appendChild(div);
+    })
+}
+function saveNote(){
+    const text = document.getElementById("noteInput").value.trim();
+    if(!text) return alert("请填写学习记录！");
+    const notes = JSON.parse(localStorage.getItem("englishNotes") || "[]");
+    const time = new Date().toLocaleString();
+    notes.push(`【${time}】 ${text}`);
+    localStorage.setItem("englishNotes", JSON.stringify(notes));
+    document.getElementById("noteInput").value = "";
+    loadNotes();
+}
+function clearAllNotes(){
+    if(confirm("确定清空所有打卡记录？删除后不能恢复！")){
+        localStorage.removeItem("englishNotes");
+        loadNotes();
+    }
+}
+
+// 页面加载读取目标+笔记
+loadGoal();
+loadNotes();
+</script>
+
+</body>
+</html>
