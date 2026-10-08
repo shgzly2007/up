@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中小学英语全能学习总站｜12周真实交付版</title>
+<style>
+:root{
+  --blue:#2266dd;--blue2:#eef5ff;--bg:#f5f7fa;--card:#fff;--line:#dbe3ec;
+  --text:#182230;--muted:#667085;--green:#20a464;--orange:#f59e0b;--red:#e5484d;
+  --shadow:0 3px 14px rgba(35,55,85,.07);
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:"微软雅黑","Microsoft YaHei",system-ui,sans-serif}
+body{background:var(--bg);color:var(--text);padding:14px}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+a{color:var(--blue);text-decoration:none}
+.container{max-width:1180px;margin:0 auto}
+h1{text-align:center;color:var(--blue);font-size:25px;margin:4px 0 7px}
+.subtitle{text-align:center;color:var(--muted);font-size:14px;margin-bottom:14px}
+.banner{
+  background:linear-gradient(135deg,#edf6ff,#fff);border:1px solid #cfe0fa;border-radius:10px;
+  padding:12px 14px;box-shadow:var(--shadow);margin-bottom:12px;line-height:1.7
+}
+.banner b{color:#1b4fae}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.btn{border:none;border-radius:7px;padding:8px 12px;background:#e7edf5;color:#233}
+.btn.primary{background:var(--blue);color:#fff}.btn.green{background:var(--green);color:#fff}
+.btn.orange{background:var(--orange);color:#fff}.btn.red{background:var(--red);color:#fff}
+.btn.small{padding:6px 9px;font-size:13px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;box-shadow:var(--shadow);margin-bottom:12px}
+.card h2{font-size:18px;color:#204f9f;margin-bottom:8px}.card h3{font-size:15px;margin:10px 0 7px;color:#234}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(max-width:850px){.grid,.grid2{grid-template-columns:1fr}}
+.field label{display:block;font-size:13px;color:var(--muted);margin-bottom:5px}
+.field input,.field select,.field textarea{
+  width:100%;border:1px solid #cfd7e2;border-radius:7px;padding:8px;background:#fff
+}
+.field textarea{min-height:78px;resize:vertical}
+.kpi{border:1px solid var(--line);border-radius:8px;padding:10px;background:#fbfcfe}
+.kpi .num{font-size:23px;font-weight:700;color:var(--blue)} .kpi .label{font-size:12px;color:var(--muted)}
+.progress{height:10px;background:#e9eef5;border-radius:999px;overflow:hidden}.progress > div{height:100%;background:var(--blue);width:0%}
+.tabs{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+.tabs button{
+  flex:1;min-width:145px;padding:10px 8px;border:1px solid #d7e0eb;border-radius:8px;
+  background:#e9eef5;color:#26364b
+}
+.tabs button.active{background:var(--blue);color:#fff;border-color:var(--blue)}
+.panel{display:none}.panel.active{display:block}
+.toolgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media(max-width:850px){.toolgrid{grid-template-columns:1fr}}
+.tool{
+  border:1px solid var(--line);border-radius:9px;padding:12px;background:#fff
+}
+.tool .title{font-weight:700;margin-bottom:5px}.tool .desc{font-size:13px;color:var(--muted);line-height:1.55;min-height:42px}
+.badge{display:inline-block;font-size:11px;padding:2px 7px;border-radius:999px;background:#eef4ff;color:#2456a6;margin-left:5px}
+.notice{padding:9px 11px;border-radius:7px;background:#fff8e8;border:1px solid #f3deb0;font-size:13px;line-height:1.6}
+.steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px}
+@media(max-width:850px){.steps{grid-template-columns:1fr 1fr}}
+.step{border:1px solid var(--line);border-radius:8px;padding:9px;background:#fcfdff}.step b{display:block;margin-bottom:4px;color:#204f9f}
+.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{border:1px solid #e0e6ee;padding:7px;text-align:left;vertical-align:top}.table th{background:#f3f7fc}
+textarea.big{min-height:110px}
+.score-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.score-grid input{width:100%;padding:7px;border:1px solid #ccd6e2;border-radius:6px}
+@media(max-width:700px){.score-grid{grid-template-columns:1fr 1fr}}
+.audio-box{border:1px dashed #b8c8db;padding:11px;border-radius:8px;background:#fafdff}
+#audioPreview{width:100%;margin-top:8px}
+.record-status{font-weight:700;color:var(--green);min-height:24px}
+.loglist{max-height:250px;overflow:auto;border-top:1px solid #eee;margin-top:7px}
+.logitem{padding:8px 3px;border-bottom:1px dashed #e2e6ec;font-size:13px;line-height:1.55}
+.logitem b{color:#204f9f}
+footer{max-width:1180px;margin:18px auto 4px;color:#7b8798;font-size:12px;text-align:center}
+.hidden{display:none!important}
+
+/* 句子颜色 */
+.rainbow-line{line-height:2.2;font-size:20px;border:1px solid var(--line);padding:12px;border-radius:8px;background:#fff}
+.token{display:inline-block;padding:0 3px;margin-right:1px;border-radius:4px}
+.noun{color:#2266dd}.verb{color:#d83b3b}.adj{color:#8b5cf6}.prep{color:#0f8a72}.pron{color:#b45309}.other{color:#555}
+.legend span{font-size:12px;margin-right:10px}
+
+/* 打印 */
+@media print{
+  body{background:#fff;padding:0}.toolbar,.tabs,footer,.btn{display:none!important}.card{box-shadow:none;break-inside:avoid}
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>🏫 中小学英语全能学习总站</h1>
+  <div class="subtitle">真实交付版｜孩子基础训练 + 初一核心英语 + 12周听力复述证据链</div>
+
+  <div class="banner">
+    <b>总原则：</b>不以“学了多少”作为终点，而以“能不能完成真实任务”作为终点。
+    <br>
+    <b>你的12周目标：</b>20分钟内完成约2分钟无字幕日常英语音频的独立听取，并口头复述核心内容；保存当天录音作为证据。
+    <br>
+    <b>家庭学习：</b>二女儿（三年级）以单词、课本和基础句子为主；大女儿（初一）以造句、语法、精读、听说输出为主。
+  </div>
+
+  <div class="card">
+    <h2>📊 今日总控台</h2>
+    <div class="grid">
+      <div class="kpi"><div class="num" id="dayNum">第1天</div><div class="label">12周训练进度</div></div>
+      <div class="kpi"><div class="num" id="weekNum">第1周</div><div class="label">当前阶段</div></div>
+      <div class="kpi"><div class="num" id="scoreNum">—</div><div class="label">最近一次真实交付总分 / 60</div></div>
+    </div>
+    <div style="margin:10px 0 4px;color:#667085;font-size:12px">12周总体进度</div>
+    <div class="progress"><div id="progressBar"></div></div>
+    <div class="toolbar">
+      <button class="btn primary" onclick="setToday(1)">设置为第1天</button>
+      <button class="btn" onclick="setToday(Math.min(84,(Number(localStorage.getItem('trainingDay')||1)+1)))">完成一天 → 下一天</button>
+      <button class="btn" onclick="window.print()">打印当前页面</button>
+      <button class="btn" onclick="exportData()">导出训练记录</button>
+      <button class="btn red" onclick="resetData()">重置总站数据</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎯 选择学习者</h2>
+    <div class="toolbar">
+      <button class="btn activeLearner" onclick="selectLearner('me')">我｜12周真实交付</button>
+      <button class="btn" onclick="selectLearner('older')">大女儿｜初一</button>
+      <button class="btn" onclick="selectLearner('younger')">二女儿｜三年级</button>
+    </div>
+    <div id="learnerText" class="notice">当前：我。今天的核心证据是“2分钟无字幕音频 + 英语复述录音”。</div>
+  </div>
+
+  <div class="card" id="deliveryCard">
+    <h2>🎧 12周真实交付训练｜今天只做一件最重要的事</h2>
+    <div class="grid2">
+      <div>
+        <h3>今日任务</h3>
+        <div class="field"><label>第几天</label><input id="taskDay" type="number" min="1" max="84"></div>
+        <div class="field" style="margin-top:8px"><label>今日音频主题</label><input id="audioTitle" value="Day 1：Are You Busy?｜日常工作交流"></div>
+        <div class="field" style="margin-top:8px"><label>音频来源/链接</label><input id="audioUrl" value="https://learningenglish.voanews.com/a/lets-learn-english-lesson-8-are-you-busy/3253185.html"></div>
+        <div class="toolbar">
+          <button class="btn primary" onclick="openAudio()">打开今日音频</button>
+          <button class="btn" onclick="saveTask()">保存今天任务</button>
+        </div>
+        <div class="notice">规则：不看字幕、不查词；允许重复听，但20分钟到点立即停止；最后必须有英语口头复述。</div>
+      </div>
+      <div>
+        <h3>20分钟交付流程</h3>
+        <div class="steps">
+          <div class="step"><b>① 第1遍</b>不停顿，抓人物和主题。</div>
+          <div class="step"><b>② 第2遍</b>抓“发生了什么”。</div>
+          <div class="step"><b>③ 复述</b>只用自己的英语说核心内容。</div>
+          <div class="step"><b>④ 录音</b>保存当日证据。</div>
+          <div class="step"><b>⑤ 反馈</b>把录音/文字交给我批改。</div>
+        </div>
+      </div>
+    </div>
+
+    <h3>🎙️ 浏览器录音证据</h3>
+    <div class="audio-box">
+      <div class="record-status" id="recordStatus">尚未录音</div>
+      <div class="toolbar">
+        <button class="btn green" onclick="startRecording()">开始录音</button>
+        <button class="btn orange" onclick="stopRecording()">停止录音</button>
+        <button class="btn" onclick="downloadRecording()">下载当天录音</button>
+      </div>
+      <audio id="audioPreview" controls class="hidden"></audio>
+      <div style="font-size:12px;color:#7b8798;margin-top:7px">
+        录音只在当前浏览器中处理；为确保形成独立证据，建议每次完成后下载保存。浏览器可能需要麦克风权限。
+      </div>
+    </div>
+
+    <h3>📝 把复述交给我批改</h3>
+    <div class="field"><label>英语复述原稿（不要先自己修改）</label><textarea id="retellText" class="big" placeholder="直接把你口头说出的英文原样输入/粘贴在这里……"></textarea></div>
+    <div class="score-grid" style="margin-top:8px">
+      <div class="field"><label>核心信息抓取 /10</label><input id="s1" type="number" min="0" max="10"></div>
+      <div class="field"><label>信息完整度 /10</label><input id="s2" type="number" min="0" max="10"></div>
+      <div class="field"><label>听辨准确度 /10</label><input id="s3" type="number" min="0" max="10"></div>
+      <div class="field"><label>语法 /10</label><input id="s4" type="number" min="0" max="10"></div>
+      <div class="field"><label>词汇表达 /10</label><input id="s5" type="number" min="0" max="10"></div>
+      <div class="field"><label>流利度 /10</label><input id="s6" type="number" min="0" max="10"></div>
+    </div>
+    <div class="grid2" style="margin-top:8px">
+      <div class="field"><label>今天最重要的错误点</label><textarea id="errorNote" placeholder="例如：第三人称-s；过去时；漏听连读；because后面句子结构……"></textarea></div>
+      <div class="field"><label>下一天调整建议</label><textarea id="nextPlan" placeholder="例如：保持2分钟，但降到更慢语速；或保持难度、减少复听次数……"></textarea></div>
+    </div>
+    <div class="toolbar">
+      <button class="btn green" onclick="saveDelivery()">保存今日交付</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>📈 12周路线图</h2>
+    <table class="table">
+      <tr><th>阶段</th><th>周数</th><th>主要目标</th><th>难度控制</th><th>交付标准</th></tr>
+      <tr><td>起步</td><td>1–2周</td><td>抓主题、人物、动作；熟悉日常场景</td><td>短句、慢速、生活话题</td><td>能复述3–5个核心事实</td></tr>
+      <tr><td>建立稳定性</td><td>3–4周</td><td>提高连续听辨和句群理解</td><td>1.5–2分钟，少量自然语速</td><td>复述主线 + 关键细节</td></tr>
+      <tr><td>扩展</td><td>5–8周</td><td>处理连读、弱读和更多日常表达</td><td>约2分钟，真实对话/短故事</td><td>20分钟内完成任务并录音</td></tr>
+      <tr><td>实战</td><td>9–11周</td><td>减少依赖重复播放，提升口头组织</td><td>2分钟左右，语速接近自然</td><td>核心信息基本完整，语言可理解</td></tr>
+      <tr><td>终测</td><td>12周</td><td>完成最终真实交付</td><td>2分钟无字幕</td><td><b>20分钟内独立复述 + 留存录音</b></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>🛠️ 六大英语工具模块</h2>
+    <div class="toolgrid">
+      <div class="tool">
+        <div class="title">1️⃣ 小学单词打字 <span class="badge">二女儿·三年级</span></div>
+        <div class="desc">用打字、听写、默写和间隔复习强化拼写，不建议把单词学习当成最终交付。</div>
+        <div class="toolbar"><button class="btn primary" onclick="openTool('https://typewords.cc')">打开 TypeWords</button></div>
+      </div>
+      <div class="tool">
+        <div class="title">2️⃣ 连词成句 <span class="badge">大女儿·初一</span></div>
+        <div class="desc">用句子构造练习强化词序、句型和输出。原 Earthworm 地址已失效，改用其现阶段的句乐部官网入口。</div>
+        <div class="toolbar"><button class="btn primary" onclick="openTool('https://julebu.co')">打开句乐部</button></div>
+      </div>
+      <div class="tool">
+        <div class="title">3️⃣ 句子主谓宾解析</div>
+        <div class="desc">这里改成总站内置的基础规则分析，避免依赖无法稳定访问的第三方解析网页；复杂句仍以人工/权威工具复核。</div>
+        <div class="field"><label>输入简单英文句</label><input id="parseInput" value="Tom reads English books every day."></div>
+        <div class="toolbar"><button class="btn primary" onclick="parseSentence()">开始分析</button></div>
+        <div id="parseResult" class="notice">等待分析……</div>
+      </div>
+      <div class="tool">
+        <div class="title">4️⃣ 英文文章精读跟读</div>
+        <div class="desc">Readlang 可用于阅读、点击翻译、词卡等；为了兼容外部网站，使用新窗口打开而不是强制嵌入。</div>
+        <div class="toolbar"><button class="btn primary" onclick="openTool('https://readlang.com/reader')">打开 Readlang</button></div>
+      </div>
+      <div class="tool">
+        <div class="title">5️⃣ 零基础音标发音训练</div>
+        <div class="desc">用于查单词的音标与练习发音，不把“会认音标”误当成“能听懂连续英语”。</div>
+        <div class="toolbar"><button class="btn primary" onclick="openTool('https://www.phonemicchart.com/transcribe/')">打开音标工具</button></div>
+      </div>
+      <div class="tool">
+        <div class="title">6️⃣ 🌈 彩色语法标注</div>
+        <div class="desc">适合把句子成分视觉化。本站提供基础彩色标注，帮助大女儿先看懂句子骨架。</div>
+        <div class="field"><label>输入一句英文</label><input id="rainbowInput" value="My sister studies English every evening."></div>
+        <div class="toolbar"><button class="btn primary" onclick="rainbowMark()">彩色标注</button></div>
+        <div id="rainbowResult" class="rainbow-line">My sister studies English every evening.</div>
+        <div class="legend" style="margin-top:6px"><span>🔵 名词</span><span>🟠 代词</span><span>🔴 动词</span><span>🟣 形容词</span><span>🟢 介词</span></div>
+      </div>
+    </div>
+    <div class="notice" style="margin-top:10px">
+      说明：第三、六模块是“基础规则辅助工具”，不是完整自然语言句法树。遇到长句、从句、倒装、非谓语等复杂结构，不应把自动标注当成最终答案。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>⏱️ 家庭学习计时器</h2>
+    <div id="timerText" style="font-size:31px;font-weight:700;text-align:center;color:var(--blue);margin:8px 0">00:00:00</div>
+    <div style="text-align:center">
+      <button class="btn green" onclick="timerStart()">开始</button>
+      <button class="btn orange" onclick="timerPause()">暂停</button>
+      <button class="btn red" onclick="timerReset()">重置</button>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>🎯 每日目标 + 打卡</h2>
+    <div class="grid2">
+      <div class="field">
+        <label>今日目标</label>
+        <textarea id="goalInput" placeholder="例如：我：完成2分钟无字幕音频并录音；大女儿：8个连词造句；二女儿：15个课本单词。"></textarea>
+        <div class="toolbar"><button class="btn primary" onclick="saveGoal()">保存目标</button></div>
+      </div>
+      <div class="field">
+        <label>今日打卡笔记</label>
+        <textarea id="noteInput" placeholder="记录实际完成内容、用时、困难和改进点。"></textarea>
+        <div class="toolbar"><button class="btn primary" onclick="saveNote()">保存打卡</button><button class="btn red" onclick="clearNotes()">清空打卡</button></div>
+      </div>
+    </div>
+    <div id="noteList" class="loglist"></div>
+  </div>
+
+  <div class="card">
+    <h2>🧾 最近训练记录</h2>
+    <div id="deliveryList" class="loglist"></div>
+  </div>
+</div>
+
+<footer>本站为单机网页工具，数据默认保存在本机浏览器。外部工具的可用性、登录方式和内容可能变化；请以对应官网当前页面为准。</footer>
+
+<script>
+const $ = id => document.getElementById(id);
+
+/* ---------- 学习者 ---------- */
+let learner = localStorage.getItem('learner') || 'me';
+const learnerNames = {me:'我｜12周真实交付', older:'大女儿｜初一', younger:'二女儿｜三年级'};
+function selectLearner(k){
+  learner=k; localStorage.setItem('learner',k);
+  $('learnerText').textContent =
+    k==='me' ? '当前：我。今天的核心证据是“2分钟无字幕音频 + 英语复述录音”。' :
+    k==='older' ? '当前：大女儿。重点：句子结构、语法、精读、跟读与逐步增加英语输出。' :
+    '当前：二女儿。重点：课本同步、基础词汇、拼读/音标入门和短句输出。';
+}
+selectLearner(learner);
+
+/* ---------- 12周进度 ---------- */
+function setToday(d){
+  d=Math.max(1,Math.min(84,Number(d)||1));
+  localStorage.setItem('trainingDay',d);
+  $('taskDay').value=d;
+  renderProgress();
+}
+function renderProgress(){
+  const d=Number(localStorage.getItem('trainingDay')||1), w=Math.ceil(d/7);
+  $('dayNum').textContent='第'+d+'天';
+  $('weekNum').textContent='第'+w+'周';
+  $('progressBar').style.width=(d/84*100).toFixed(1)+'%';
+  const last=JSON.parse(localStorage.getItem('deliveryRecords')||'[]').slice(-1)[0];
+  $('scoreNum').textContent=last && last.total!=null ? last.total : '—';
+}
+setToday(Number(localStorage.getItem('trainingDay')||1));
+
+function openTool(url){ window.open(url,'_blank','noopener'); }
+function openAudio(){
+  const url=$('audioUrl').value.trim();
+  if(!url) return alert('请先填写音频链接。');
+  window.open(url,'_blank','noopener');
+}
+function saveTask(){
+  localStorage.setItem('taskDay',$('taskDay').value);
+  localStorage.setItem('audioTitle',$('audioTitle').value);
+  localStorage.setItem('audioUrl',$('audioUrl').value);
+  setToday(Number($('taskDay').value||1));
+  alert('今日任务已保存。');
+}
+$('taskDay').value=Number(localStorage.getItem('taskDay')||localStorage.getItem('trainingDay')||1);
+$('audioTitle').value=localStorage.getItem('audioTitle')||$('audioTitle').value;
+$('audioUrl').value=localStorage.getItem('audioUrl')||$('audioUrl').value;
+
+/* ---------- 录音 ---------- */
+let mediaRecorder=null, audioChunks=[], recordingBlob=null, audioUrl=null;
+async function startRecording(){
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    audioChunks=[]; recordingBlob=null;
+    mediaRecorder=new MediaRecorder(stream);
+    mediaRecorder.ondataavailable=e=>{if(e.data.size) audioChunks.push(e.data)};
+    mediaRecorder.onstop=()=>{
+      recordingBlob=new Blob(audioChunks,{type:'audio/webm'});
+      audioUrl=URL.createObjectURL(recordingBlob);
+      $('audioPreview').src=audioUrl;
+      $('audioPreview').classList.remove('hidden');
+      $('recordStatus').textContent='已完成录音，可播放并下载。';
+      stream.getTracks().forEach(t=>t.stop());
+    };
+    mediaRecorder.start();
+    $('recordStatus').textContent='🔴 正在录音……';
+  }catch(err){
+    $('recordStatus').textContent='无法启动麦克风：'+err.message;
+    alert('浏览器没有给网页麦克风权限。你也可以用系统录音机录好后，再把英文复述原稿粘贴到本页面。');
+  }
+}
+function stopRecording(){
+  if(mediaRecorder && mediaRecorder.state!=='inactive') mediaRecorder.stop();
+}
+function downloadRecording(){
+  if(!recordingBlob) return alert('还没有可下载的录音。');
+  const a=document.createElement('a');a.href=audioUrl;
+  const d=Number($('taskDay').value||1);
+  a.download='英语真实交付-Day'+d+'-'+new Date().toISOString().slice(0,10)+'.webm';
+  a.click();
+}
+
+/* ---------- 交付评分 ---------- */
+function n(id){const v=Number($(id).value); return Number.isFinite(v)?Math.max(0,Math.min(10,v)):null}
+function saveDelivery(){
+  const scores=[n('s1'),n('s2'),n('s3'),n('s4'),n('s5'),n('s6')];
+  if(scores.some(v=>v===null)) return alert('请先填写6项评分。');
+  const total=scores.reduce((a,b)=>a+b,0);
+  const rec={
+    date:new Date().toLocaleString(),day:Number($('taskDay').value||1),
+    learner, title:$('audioTitle').value.trim(),
+    total,scores,retell:$('retellText').value.trim(),
+    error:$('errorNote').value.trim(),next:$('nextPlan').value.trim()
+  };
+  const arr=JSON.parse(localStorage.getItem('deliveryRecords')||'[]');arr.push(rec);
+  localStorage.setItem('deliveryRecords',JSON.stringify(arr));
+  renderDeliveryList();renderProgress();
+  alert('今日交付已保存。把录音和这里的复述原稿一起发给我，我会据此调整下一天难度。');
+}
+function renderDeliveryList(){
+  const arr=JSON.parse(localStorage.getItem('deliveryRecords')||'[]').slice().reverse();
+  $('deliveryList').innerHTML=arr.length ? arr.map(x=>
+    `<div class="logitem"><b>第${x.day}天｜${learnerNames[x.learner]||x.learner}</b>｜${x.title}｜总分 <b>${x.total}/60</b><br>
+    ${escapeHtml(x.error||'无错误记录')}<br><span style="color:#7b8798">${escapeHtml(x.next||'未填写下一天调整')}</span></div>`
+  ).join('') : '<div class="logitem">暂无记录。</div>';
+}
+function escapeHtml(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
+renderDeliveryList();
+
+/* ---------- 句法：基础启发式 ---------- */
+function guessWordType(w, index, words){
+  const x=w.toLowerCase().replace(/[^a-z']/g,'');
+  if(!x) return 'other';
+  const pron=['i','you','he','she','it','we','they','me','him','her','us','them','my','your','his','our','their','this','that','these','those'];
+  const prep=['in','on','at','to','from','for','with','about','of','by','after','before','under','over','near','into','during','between'];
+  const verbs=['am','is','are','was','were','be','been','being','do','does','did','have','has','had','go','goes','went','come','comes','came','read','reads','reading','study','studies','studied','like','likes','liked','want','wants','wanted','make','makes','made','play','plays','played','work','works','worked','eat','eats','ate','watch','watches','watched','need','needs','needed'];
+  const adj=['good','bad','big','small','new','old','happy','sad','busy','easy','hard','beautiful','important'];
+  if(pron.includes(x))return 'pron'; if(prep.includes(x))return 'prep'; if(verbs.includes(x)||/(ed|ing|s)$/.test(x)) return 'verb';
+  if(adj.includes(x))return 'adj'; return 'noun';
+}
+function parseSentence(){
+  const s=$('parseInput').value.trim();
+  if(!s)return;
+  const w=s.replace(/[.?!]+$/,'').split(/\s+/);
+  const tags=w.map((x,i)=>({x,t:guessWordType(x,i,w)}));
+  const firstVerb=tags.findIndex(o=>o.t==='verb');
+  let subject=firstVerb>0?tags.slice(0,firstVerb).map(o=>o.x).join(' '):'未可靠识别';
+  let verb=firstVerb>=0?tags[firstVerb].x:'未可靠识别';
+  let object=firstVerb>=0?tags.slice(firstVerb+1).map(o=>o.x).join(' '):'未可靠识别';
+  $('parseResult').innerHTML=
+    `<b>基础识别：</b> 主语 = ${escapeHtml(subject)} ｜ 谓语 = ${escapeHtml(verb)} ｜ 其余成分 = ${escapeHtml(object)}<br>
+    <span style="color:#7b8798">这是启发式分析，只适合简单句。复杂句请人工核对。</span>`;
+}
+function classifyForRainbow(){
+  const s=$('rainbowInput').value.trim();
+  const words=s.split(/(\s+|[,.!?;:])/).filter(Boolean);
+  return words.map((tok,i)=>{
+    if(/^\s+$/.test(tok)||/^[,.!?;:]+$/.test(tok))return tok;
+    const t=guessWordType(tok,i,words);
+    return `<span class="token ${t}">${escapeHtml(tok)}</span>`;
+  }).join('');
+}
+function rainbowMark(){
+  const s=$('rainbowInput').value.trim();
+  $('rainbowResult').innerHTML=classifyForRainbow(s);
+}
+rainbowMark();
+
+/* ---------- 计时器 ---------- */
+let timerInterval=null,totalSeconds=0,timerRunning=false;
+function fmt(s){const h=String(Math.floor(s/3600)).padStart(2,'0'),m=String(Math.floor(s%3600/60)).padStart(2,'0'),x=String(s%60).padStart(2,'0');return h+':'+m+':'+x}
+function renderTimer(){$('timerText').textContent=fmt(totalSeconds)}
+function timerStart(){if(timerRunning)return;timerRunning=true;timerInterval=setInterval(()=>{totalSeconds++;renderTimer()},1000)}
+function timerPause(){timerRunning=false;clearInterval(timerInterval)}
+function timerReset(){timerRunning=false;clearInterval(timerInterval);totalSeconds=0;renderTimer()}
+
+/* ---------- 目标/笔记 ---------- */
+function saveGoal(){localStorage.setItem('dailyGoal',$('goalInput').value);alert('今日目标已保存。')}
+function loadGoal(){$('goalInput').value=localStorage.getItem('dailyGoal')||''}
+function saveNote(){
+  const text=$('noteInput').value.trim();if(!text)return alert('请先填写打卡内容。');
+  const arr=JSON.parse(localStorage.getItem('englishNotes')||'[]');
+  arr.push({date:new Date().toLocaleString(),learner,text});
+  localStorage.setItem('englishNotes',JSON.stringify(arr));
+  $('noteInput').value='';renderNotes();
+}
+function renderNotes(){
+  const arr=JSON.parse(localStorage.getItem('englishNotes')||'[]').slice().reverse();
+  $('noteList').innerHTML=arr.length?arr.map(x=>
+    `<div class="logitem"><b>${escapeHtml(x.date)}</b>｜${learnerNames[x.learner]||x.learner}<br>${escapeHtml(x.text)}</div>`
+  ).join(''):'<div class="logitem">暂无打卡记录。</div>';
+}
+function clearNotes(){if(confirm('确定清空全部打卡记录？')){localStorage.removeItem('englishNotes');renderNotes()}}
+loadGoal();renderNotes();
+
+/* ---------- 导出/重置 ---------- */
+function exportData(){
+  const data={
+    exportedAt:new Date().toISOString(),learner,trainingDay:localStorage.getItem('trainingDay')||1,
+    dailyGoal:localStorage.getItem('dailyGoal')||'',
+    notes:JSON.parse(localStorage.getItem('englishNotes')||'[]'),
+    deliveries:JSON.parse(localStorage.getItem('deliveryRecords')||'[]')
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json;charset=utf-8'});
+  const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;
+  a.download='英语总站-训练记录-'+new Date().toISOString().slice(0,10)+'.json';a.click();
+  URL.revokeObjectURL(url);
+}
+function resetData(){
+  if(confirm('将清除总站本机保存的目标、笔记、交付评分和进度。确定继续？')){
+    ['learner','trainingDay','taskDay','audioTitle','audioUrl','dailyGoal','englishNotes','deliveryRecords'].forEach(k=>localStorage.removeItem(k));
+    location.reload();
+  }
+}
+
+/* ---------- 外部工具快捷键 ---------- */
+document.addEventListener('keydown',e=>{
+  if(e.altKey && e.key==='1')openTool('https://typewords.cc');
+  if(e.altKey && e.key==='2')openTool('https://julebu.co');
+  if(e.altKey && e.key==='4')openTool('https://readlang.com/reader');
+});
+</script>
+</body>
+</html>
